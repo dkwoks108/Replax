@@ -1,0 +1,3 @@
+{
+  "test-db": "ts-node src/scripts/testConnection.ts"
+}
