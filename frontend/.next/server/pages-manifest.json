@@ -2,13 +2,13 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/admin/login": "pages/admin/login.js",
-  "/blog/[slug]": "pages/blog/[slug].js",
   "/blog": "pages/blog.js",
   "/category/[slug]": "pages/category/[slug].js",
   "/": "pages/index.js",
   "/products/[id]": "pages/products/[id].js",
-  "/admin": "pages/admin.js",
+  "/blog/[slug]": "pages/blog/[slug].js",
   "/products": "pages/products.js",
+  "/admin": "pages/admin.js",
   "/products/[slug]": "pages/products/[slug].js",
   "/_document": "pages/_document.js"
 }
