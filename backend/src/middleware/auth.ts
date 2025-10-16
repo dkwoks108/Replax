@@ -3,7 +3,8 @@ import jwt from 'jsonwebtoken';
 import { IAdmin } from '../models/Admin';
 import Admin from '../models/Admin';
 
-interface AuthRequest extends Request {
+// export the interface so other modules can import it
+export interface AuthRequest extends Request {
   admin?: IAdmin;
 }
 
