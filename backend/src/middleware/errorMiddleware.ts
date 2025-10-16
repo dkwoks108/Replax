@@ -1,36 +1,73 @@
 import { Request, Response, NextFunction } from 'express';
+import logger from '../utils/logger';
 
 export class AppError extends Error {
-  status: number;
-  
-  constructor(message: string, status: number = 500) {
+  constructor(
+    public statusCode: number,
+    public message: string,
+    public isOperational = true
+  ) {
     super(message);
-    this.status = status;
+    Object.setPrototypeOf(this, AppError.prototype);
     Error.captureStackTrace(this, this.constructor);
   }
 }
 
-export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
-  const status = err.status || 500;
-  const message = err.message || 'Something went wrong';
+interface ErrorResponse {
+  success: boolean;
+  message: string;
+  errors?: ValidationError[];
+  stack?: string;
+}
 
-  // Log error for debugging
-  console.error(err);
-
-  // Send standardized error response
-  res.status(status).json({
+export const errorHandler = (
+  err: Error | AppError,
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  const isDev = process.env.NODE_ENV === 'development';
+  let statusCode = 500;
+  let response: ErrorResponse = {
     success: false,
-    error: {
-      message,
-      status,
-      ...(process.env.NODE_ENV === 'development' ? { stack: err.stack } : {}),
-    },
-  });
+    message: 'Internal server error'
+  };
+
+  // Handle known errors
+  if (err instanceof AppError) {
+    statusCode = err.statusCode;
+    response.message = err.message;
+    if (err.errors) {
+      response.errors = err.errors;
+    }
+  } else if (err instanceof Error) {
+    if (isDev) {
+      response.message = err.message;
+    }
+  }
+
+  // Log unknown errors
+  if (!(err instanceof AppError) || !err.isOperational) {
+    logger.error('Unhandled error:', {
+      error: err,
+      path: req.path,
+      method: req.method,
+      body: req.body,
+      query: req.query,
+      params: req.params,
+    });
+  }
+
+  // Add stack trace in development
+  if (isDev) {
+    response.stack = err.stack;
+  }
+
+  return res.status(statusCode).json(response);
 };
 
 export const notFound = (req: Request, res: Response, next: NextFunction) => {
-  const error = new AppError(`Not Found - ${req.originalUrl}`, 404);
-  next(error);
+  next(new AppError(404, `Not Found - ${req.originalUrl}`));
 };
 
 export const catchAsync = (fn: Function) => {

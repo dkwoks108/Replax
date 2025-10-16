@@ -1,5 +1,6 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Model } from 'mongoose';
 import bcrypt from 'bcryptjs';
+import { AppError } from '../middleware/errorMiddleware';
 
 export interface IAdmin extends Document {
   name: string;
@@ -44,23 +45,29 @@ const AdminSchema: Schema = new Schema(
 // Hash password before save
 AdminSchema.pre<IAdmin>('save', async function (next) {
   try {
-    if (!this.isModified('password')) return next();
+    if (!this.isModified('password')) {
+      return next();
+    }
     
     // Validate password
     if (this.password.length < 6) {
-      throw new Error('Password must be at least 6 characters long');
+      throw new AppError(400, 'Password must be at least 6 characters long');
     }
     
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
     next();
   } catch (error) {
-    next(error as Error);
+    next(error instanceof AppError ? error : new AppError(500, 'Error processing password'));
   }
 });
 
-AdminSchema.methods.comparePassword = function (candidate: string) {
-  return bcrypt.compare(candidate, this.password);
+AdminSchema.methods.comparePassword = async function (candidate: string): Promise<boolean> {
+  try {
+    return await bcrypt.compare(candidate, this.password);
+  } catch (error) {
+    throw new AppError(500, 'Error comparing passwords');
+  }
 };
 
 const Admin = mongoose.model<IAdmin>('Admin', AdminSchema);

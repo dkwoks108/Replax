@@ -1,7 +1,7 @@
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import { Express } from 'express';
 import { version } from '../../package.json';
-import { Router } from 'express';
 
 const options: swaggerJsdoc.Options = {
   definition: {
@@ -125,15 +125,22 @@ const options: swaggerJsdoc.Options = {
 
 const swaggerSpec = swaggerJsdoc(options);
 
-const swaggerDocs = (app: Router) => {
+const swaggerDocs = (app: Express): void => {
   // Swagger page
-  app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+    customCss: '.swagger-ui .topbar { display: none }',
+    customSiteTitle: 'Replax API Documentation',
+  }));
 
   // Docs in JSON format
-  app.get('/docs.json', (req, res) => {
+  app.get('/api/docs.json', (_req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(swaggerSpec);
   });
+
+  // Log Swagger initialization
+  const port = process.env.PORT || 5000;
+  console.log(`📚 API Documentation available at http://localhost:${port}/api/docs`);
 };
 
 export default swaggerDocs;
