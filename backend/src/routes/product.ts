@@ -6,7 +6,7 @@ import { productValidation } from '../validations/product.validation';
 import Product from '../models/Product';
 import { isValidObjectId } from 'mongoose';
 import logger from '../utils/logger';
-import { AppError } from '../middleware/errorHandler';
+import { AppError } from '../middleware/errorMiddleware';
 
 /**
  * @swagger

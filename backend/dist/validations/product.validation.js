@@ -77,8 +77,8 @@ exports.productValidation = {
             .isFloat({ min: 0 })
             .withMessage('Maximum price must be a positive number')
             .custom((value, { req }) => {
-            if (req.query.minPrice && parseFloat(value) <= parseFloat(req.query.minPrice)) {
-                throw new Error('Maximum price must be greater than minimum price');
+            if (req.query?.minPrice && parseFloat(value) <= parseFloat(String(req.query.minPrice))) {
+                throw new Error('Minimum price must be lower than product price');
             }
             return true;
         })

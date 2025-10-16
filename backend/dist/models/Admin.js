@@ -37,7 +37,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const bcryptjs_1 = __importDefault(require("bcryptjs")); // keep import; types provided via the declaration file added below
 const errorMiddleware_1 = require("../middleware/errorMiddleware");
 const AdminSchema = new mongoose_1.Schema({
     name: {

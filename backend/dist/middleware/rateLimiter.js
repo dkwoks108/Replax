@@ -27,10 +27,9 @@ const createRateLimiter = (config) => {
     });
 };
 // General API rate limiter
-exports.apiLimiter = createRateLimiter({
+exports.apiLimiter = (0, express_rate_limit_1.default)({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100,
-    message: 'Too many requests from this IP, please try again after 15 minutes'
+    max: 100
 });
 // Stricter limiter for authentication routes
 exports.authLimiter = createRateLimiter({

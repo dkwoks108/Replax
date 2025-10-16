@@ -1,10 +1,6 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.catchAsync = exports.notFound = exports.errorHandler = exports.AppError = void 0;
-const logger_1 = __importDefault(require("../utils/logger"));
 class AppError extends Error {
     constructor(statusCode, message, isOperational = true) {
         super(message);
@@ -16,46 +12,25 @@ class AppError extends Error {
     }
 }
 exports.AppError = AppError;
-const errorHandler = (err, req, res, _next) => {
-    const isDev = process.env.NODE_ENV === 'development';
-    let statusCode = 500;
-    let response = {
-        success: false,
-        message: 'Internal server error'
+const errorHandler = (err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    const response = {
+        status: statusCode >= 500 ? 'error' : 'fail',
+        statusCode,
+        message: err.message || 'Internal Server Error'
     };
-    // Handle known errors
-    if (err instanceof AppError) {
-        statusCode = err.statusCode;
-        response.message = err.message;
-        if (err.errors) {
-            response.errors = err.errors;
-        }
+    // use safe access for errors — many error types attach `errors`
+    if (err.errors) {
+        response.errors = err.errors;
     }
-    else if (err instanceof Error) {
-        if (isDev) {
-            response.message = err.message;
-        }
-    }
-    // Log unknown errors
-    if (!(err instanceof AppError) || !err.isOperational) {
-        logger_1.default.error('Unhandled error:', {
-            error: err,
-            path: req.path,
-            method: req.method,
-            body: req.body,
-            query: req.query,
-            params: req.params,
-        });
-    }
-    // Add stack trace in development
-    if (isDev) {
-        response.stack = err.stack;
-    }
-    return res.status(statusCode).json(response);
+    res.status(statusCode).json(response);
 };
 exports.errorHandler = errorHandler;
-const notFound = (req, res, next) => {
-    next(new AppError(404, `Not Found - ${req.originalUrl}`));
+// notFound handler: mark unused param with underscore to avoid TS unused param complaint
+const notFound = (req, _res, next) => {
+    const err = new Error('Not Found');
+    err.statusCode = 404;
+    next(err);
 };
 exports.notFound = notFound;
 const catchAsync = (fn) => {

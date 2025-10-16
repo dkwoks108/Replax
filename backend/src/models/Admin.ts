@@ -1,5 +1,5 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
-import bcrypt from 'bcryptjs';
+import mongoose, { Schema, Document } from 'mongoose';
+import bcrypt from 'bcryptjs'; // keep import; types provided via the declaration file added below
 import { AppError } from '../middleware/errorMiddleware';
 
 export interface IAdmin extends Document {

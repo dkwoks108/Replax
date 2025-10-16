@@ -1,7 +1,6 @@
 import rateLimit from 'express-rate-limit';
 import { Request } from 'express';
 import { AppError } from './errorMiddleware';
-import logger from '../utils/logger';
 
 interface RateLimitConfig {
   windowMs: number;
@@ -29,10 +28,9 @@ const createRateLimiter = (config: RateLimitConfig) => {
 };
 
 // General API rate limiter
-export const apiLimiter = createRateLimiter({
+export const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100,
-  message: 'Too many requests from this IP, please try again after 15 minutes'
+  max: 100
 });
 
 // Stricter limiter for authentication routes

@@ -1,5 +1,19 @@
 {
+  "name": "replax",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "npm --workspaces run dev",
+    "build": "npm --workspaces run build",
+    "start": "npm --workspaces run start",
+    "install:all": "npm install --workspaces"
+  },
   "devDependencies": {
+    "concurrently": "^9.2.1",
+    "install": "^0.13.0",
     "typescript": "^5.9.3"
   }
 }

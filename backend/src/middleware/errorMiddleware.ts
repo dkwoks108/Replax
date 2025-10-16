@@ -13,61 +13,37 @@ export class AppError extends Error {
   }
 }
 
+// local typedef for validation errors (avoid TS error if a specific type isn't available)
+type ValidationError = any;
+
 interface ErrorResponse {
-  success: boolean;
-  message: string;
+  status?: string;
+  statusCode?: number;
+  message?: string;
   errors?: ValidationError[];
-  stack?: string;
 }
 
-export const errorHandler = (
-  err: Error | AppError,
-  req: Request,
-  res: Response,
-  _next: NextFunction
-) => {
-  const isDev = process.env.NODE_ENV === 'development';
-  let statusCode = 500;
-  let response: ErrorResponse = {
-    success: false,
-    message: 'Internal server error'
+export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
+  const statusCode = err.statusCode || 500;
+  const response: ErrorResponse = {
+    status: statusCode >= 500 ? 'error' : 'fail',
+    statusCode,
+    message: err.message || 'Internal Server Error'
   };
 
-  // Handle known errors
-  if (err instanceof AppError) {
-    statusCode = err.statusCode;
-    response.message = err.message;
-    if (err.errors) {
-      response.errors = err.errors;
-    }
-  } else if (err instanceof Error) {
-    if (isDev) {
-      response.message = err.message;
-    }
+  // use safe access for errors — many error types attach `errors`
+  if ((err as any).errors) {
+    response.errors = (err as any).errors;
   }
 
-  // Log unknown errors
-  if (!(err instanceof AppError) || !err.isOperational) {
-    logger.error('Unhandled error:', {
-      error: err,
-      path: req.path,
-      method: req.method,
-      body: req.body,
-      query: req.query,
-      params: req.params,
-    });
-  }
-
-  // Add stack trace in development
-  if (isDev) {
-    response.stack = err.stack;
-  }
-
-  return res.status(statusCode).json(response);
+  res.status(statusCode).json(response);
 };
 
-export const notFound = (req: Request, res: Response, next: NextFunction) => {
-  next(new AppError(404, `Not Found - ${req.originalUrl}`));
+// notFound handler: mark unused param with underscore to avoid TS unused param complaint
+export const notFound = (req: Request, _res: Response, next: NextFunction) => {
+  const err = new Error('Not Found');
+  (err as any).statusCode = 404;
+  next(err);
 };
 
 export const catchAsync = (fn: Function) => {

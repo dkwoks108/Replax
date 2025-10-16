@@ -1,0 +1,16 @@
+{"level":"info","message":"Database connected successfully","service":"replax-api","timestamp":"2025-10-16 16:56:29"}
+{"level":"info","message":"Server running on port 5000 in development mode","service":"replax-api","timestamp":"2025-10-16 16:56:29"}
+{"level":"info","message":"API Documentation available at http://localhost:5000/api/docs","service":"replax-api","timestamp":"2025-10-16 16:56:29"}
+{"level":"info","message":"Shutting down gracefully...","service":"replax-api","timestamp":"2025-10-16 17:00:44"}
+{"level":"info","message":"Database connected successfully","service":"replax-api","timestamp":"2025-10-16 17:00:46"}
+{"level":"info","message":"Server running on port 5000 in development mode","service":"replax-api","timestamp":"2025-10-16 17:00:46"}
+{"level":"info","message":"API Documentation available at http://localhost:5000/api/docs","service":"replax-api","timestamp":"2025-10-16 17:00:46"}
+{"level":"info","message":"Shutting down gracefully...","service":"replax-api","timestamp":"2025-10-16 17:00:50"}
+{"level":"info","message":"Database connected successfully","service":"replax-api","timestamp":"2025-10-16 17:03:59"}
+{"level":"info","message":"Server running on port 5000 in development mode","service":"replax-api","timestamp":"2025-10-16 17:03:59"}
+{"level":"info","message":"API Documentation available at http://localhost:5000/api/docs","service":"replax-api","timestamp":"2025-10-16 17:03:59"}
+{"level":"info","message":"Shutting down gracefully...","service":"replax-api","timestamp":"2025-10-16 17:04:18"}
+{"level":"info","message":"Database connected successfully","service":"replax-api","timestamp":"2025-10-16 17:09:05"}
+{"level":"info","message":"Server running on port 5000 in development mode","service":"replax-api","timestamp":"2025-10-16 17:09:05"}
+{"level":"info","message":"API Documentation available at http://localhost:5000/api/docs","service":"replax-api","timestamp":"2025-10-16 17:09:05"}
+{"level":"info","message":"Shutting down gracefully...","service":"replax-api","timestamp":"2025-10-16 17:09:27"}

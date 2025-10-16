@@ -11,7 +11,7 @@ const product_validation_1 = require("../validations/product.validation");
 const Product_1 = __importDefault(require("../models/Product"));
 const mongoose_1 = require("mongoose");
 const logger_1 = __importDefault(require("../utils/logger"));
-const errorHandler_1 = require("../middleware/errorHandler");
+const errorMiddleware_1 = require("../middleware/errorMiddleware");
 /**
  * @swagger
  * tags:
@@ -190,7 +190,7 @@ router.delete('/:id', auth_1.auth, rateLimiter_1.apiLimiter, (0, validate_1.vali
     logger_1.default.info('Deleting product', { productId: req.params.id });
     const product = await Product_1.default.findByIdAndDelete(req.params.id);
     if (!product) {
-        throw new errorHandler_1.AppError(404, 'Product not found');
+        throw new errorMiddleware_1.AppError(404, 'Product not found');
     }
     logger_1.default.info('Product deleted successfully', { productId: req.params.id });
     return res.json({
