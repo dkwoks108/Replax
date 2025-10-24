@@ -1,8 +1,14 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+
+// fixed imports (folder-only — index.jsx will be resolved)
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import AnnouncementBoard from '../../components/AnnouncementBoard';
+import PosterSlider from '../../components/PosterSlider';
+import CategoryScroller from '../../components/CategoryScroller';
+import FeaturesSection from '../../components/FeaturesSection';
 
 export default function Blog({ posts, categories }) {
   return (

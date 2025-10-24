@@ -1,14 +1,14 @@
 import Head from 'next/head';
-import Header from '../components/Header';
-import AnnouncementBoard from '../components/AnnouncementBoard';
-import PosterSlider from '../components/PosterSlider';
-import CategoryScroller from '../components/CategoryScroller';
-import FeaturesSection from '../components/FeaturesSection';
-import ProductCarousel from '../components/ProductCarousel';
-import CustomerReviews from '../components/CustomerReviews';
-import SocialMediaFeed from '../components/SocialMediaFeed';
-import AboutSection from '../components/AboutSection';
-import Footer from '../components/Footer';
+import Header from '../../components/Header';
+import AnnouncementBoard from '../../components/AnnouncementBoard';
+import PosterSlider from '../../components/PosterSlider';
+import CategoryScroller from '../../components/CategoryScroller';
+import FeaturesSection from '../../components/FeaturesSection';
+import ProductCarousel from '../../components/ProductCarousel';
+import CustomerReviews from '../../components/CustomerReviews';
+import SocialMediaFeed from '../../components/SocialMediaFeed';
+import AboutSection from '../../components/AboutSection';
+import Footer from '../../components/Footer';
 
 export default function Home({ featuredProducts, categories }) {
   return (

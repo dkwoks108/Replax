@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { IAdmin } from '../models/Admin';
-import Admin from '../models/Admin';
+import Admin, { IAdmin } from '../models/Admin';
 
-// export the interface so other modules can import it
+// export interface for downstream imports
 export interface AuthRequest extends Request {
   admin?: IAdmin;
 }

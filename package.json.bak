@@ -1,0 +1,25 @@
+{
+  "name": "replax",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "npm --workspaces run dev",
+    "build": "npm --workspaces run build",
+    "start": "npm --workspaces run start",
+    "install:all": "npm install --workspaces"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.4",
+    "@types/bcryptjs": "^3.0.0",
+    "concurrently": "^9.2.1",
+    "install": "^0.13.0",
+    "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "cookie": "^0.7.0",
+    "validator": "^13.9.0"
+  }
+}

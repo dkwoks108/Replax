@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { AuthRequest } from '../middleware/auth';
-import Admin from '../models/Admin';
+import Admin, { IAdmin } from '../models/Admin';
 import jwt from 'jsonwebtoken';
 import { AppError } from '../middleware/errorMiddleware';
 
@@ -103,20 +103,8 @@ export const getAdminProfile = async (
   res: Response
 ): Promise<void> => {
   const admin = req.admin;
-  if (!admin) {
-    throw new AppError(404, 'Admin not found');
-  }
-
-  res.json({
-    success: true,
-    data: {
-      admin: {
-        id: admin._id,
-        name: admin.name,
-        email: admin.email
-      }
-    }
-  });
+  if (!admin) throw new AppError(404, 'Admin not found');
+  res.json({ success: true, data: { admin } });
 };
 
 export const logoutAdmin = async (

@@ -68,19 +68,9 @@ const loginAdmin = async (req, res) => {
 exports.loginAdmin = loginAdmin;
 const getAdminProfile = async (req, res) => {
     const admin = req.admin;
-    if (!admin) {
+    if (!admin)
         throw new errorMiddleware_1.AppError(404, 'Admin not found');
-    }
-    res.json({
-        success: true,
-        data: {
-            admin: {
-                id: admin._id,
-                name: admin.name,
-                email: admin.email
-            }
-        }
-    });
+    res.json({ success: true, data: { admin } });
 };
 exports.getAdminProfile = getAdminProfile;
 const logoutAdmin = async (_req, res) => {
