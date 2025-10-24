@@ -24,6 +24,6 @@ const features = [
 ];
 
 /* Compatibility wrapper: ensures a default export for consumers that import '@/components/Button' */
-import * as ButtonModule from './ButtonImpl';
+import ButtonModule from './ButtonImpl';
 const ButtonDefault = ButtonModule.default ?? ButtonModule.Button ?? (props => null);
 export default ButtonDefault;
